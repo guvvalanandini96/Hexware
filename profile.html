@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+        }
+
+        .profile-image i {
+            font-size: 40px;
+            color: #6c757d;
+        }
+
+        .profile-info h1 {
+            font-size: 24px;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* Quiz History */
+        .quiz-history {
+            margin-top: 30px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .quiz-name {
+            font-weight: 500;
+        }
+
+        .quiz-score {
+            background: #e5edff;
+            color: #2563eb;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* Achievements */
+        .achievements {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .achievement-badge {
+            background: #e5edff;
+            color: #2563eb;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .achievement-badge i {
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .profile-section {
+                padding: 15px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-image {
+                margin: 0 auto 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="profile-header">
+                <div class="profile-image">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-info">
+                    <h1>Nandini</h1>
+                    <p>Member since January 2024</p>
+                    <p>Email: Nandini@example.com</p>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Total Quizzes</div>
+                    <div class="stat-value">42</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Average Score</div>
+                    <div class="stat-value">85%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Completion Rate</div>
+                    <div class="stat-value">92%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Best Score</div>
+                    <div class="stat-value">98%</div>
+                </div>
+            </div>
+
+            <!-- Recent Quiz History -->
+            <div class="quiz-history">
+                <h2>Recent Quizzes</h2>
+                <div class="history-item">
+                    <span class="quiz-name">C Basics</span>
+                    <span class="quiz-score">95%</span>
+                </div>
+                <div class="history-item">
+                    <span class="quiz-name">java Fundamentals</span>
+                    <span class="quiz-score">88%</span>
+                </div>
+                <div class="history-item">
+                    <span class="quiz-name">Python Advanced</span>
+                    <span class="quiz-score">92%</span>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="achievements">
+                <div class="achievement-badge">
+                    <i class="fas fa-trophy"></i>
+                    Quiz Master
+                </div>
+                <div class="achievement-badge">
+                    <i class="fas fa-star"></i>
+                    Perfect Score
+                </div>
+                <div class="achievement-badge">
+                    <i class="fas fa-bolt"></i>
+                    Fast Learner
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

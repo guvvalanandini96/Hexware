@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://img.freepik.com/free-vector/realistic-style-technology-particle-background_23-2148426704.jpg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            text-align: center;
+            color: #f1f1f1; /* Lighter text color for better contrast */
+            width: 90%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.7); /* Darker semi-transparent background for contrast */
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ffd700; /* Gold color for the header */
+        }
+
+        .input-box {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #f1f1f1; /* Light input background */
+            color: #333; /* Dark text for input fields */
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .checkbox-container label {
+            color: #f1f1f1; /* Light text for label */
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .btn-container button {
+            width: 45%;
+            padding: 10px;
+            font-size: 1.1rem;
+            border: none;
+            background-color: #4caf50; /* Green button background */
+            color: white; /* White text on buttons */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-container button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: #ffd700; /* Gold color for social icons */
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .follow-text {
+            display: block;
+            margin-bottom: 10px;
+            color: #f1f1f1; /* Light color for follow text */
+        }
+
+        .register-text {
+            margin-top: 20px;
+            color: #f1f1f1; /* Light color for register text */
+        }
+
+        .register-text a {
+            color: #ffcc00; /* Bright color for register link */
+            text-decoration: underline; /* Underlined register link */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello,<br>Welcome</h1>
+
+        <form id="loginForm">
+            <div class="input-box">
+                <input type="email" id="email" placeholder="email address" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember me</label>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" id="loginButton">Login</button>
+            </div>
+        </form>
+
+        <div class="register-text">
+            <p>If you don’t have an account, please <a href="#" id="registerPrompt">Register</a>.</p>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Get email and password values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Basic validation
+            if (!validateEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return;
+            }
+
+            // Redirect to welcome.html upon successful login
+            window.location.href = 'welcome.html';
+        });
+
+        // Validate email format
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Handle register prompt click
+        document.getElementById('registerPrompt').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default action
+            
+            // Redirect to register.html when clicking register
+            window.location.href = 'register.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World War II Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+        h1 {
+            text-align: center;
+            color: #2b6cb0;
+        }
+        #quiz-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a365d;
+        }
+        .answer {
+            display: block;
+            margin: 10px 0;
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            background-color: #edf2f7;
+            color: #2d3748;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .answer:hover {
+            background-color: #e2e8f0;
+        }
+        .answer.correct {
+            background-color: #48bb78;
+            color: #ffffff;
+            border-color: #2f855a;
+        }
+        .answer.incorrect {
+            background-color: #f56565;
+            color: #ffffff;
+            border-color: #c53030;
+        }
+        #next-btn, #result-btn, #retry-btn, #review-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4299e1;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #next-btn:hover, #result-btn:hover, #retry-btn:hover, #review-btn:hover {
+            background-color: #3182ce;
+        }
+        #result {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 20px;
+            color: #2b6cb0;
+        }
+        .result-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .result-container .result-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .result-container.success .result-icon {
+            color: #48bb78;
+        }
+        .result-container.failure .result-icon {
+            color: #f56565;
+        }
+        .result-container p {
+            margin: 10px 0;
+            font-size: 22px;
+        }
+        .score-box {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .score-box div {
+            background-color: #edf2f7;
+            padding: 20px;
+            border-radius: 10px;
+            width: 150px;
+        }
+        .score-box div p {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+        .score-box div small {
+            font-size: 12px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <h1>World War II Quiz</h1>
+    <div id="quiz-container"></div>
+    <button id="next-btn" style="display: none;">Next Question</button>
+    <button id="result-btn" style="display: none;">Show Result</button>
+    <button id="retry-btn" style="display: none;">Retry Quiz</button>
+    <button id="review-btn" style="display: none;">Review Quiz</button>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "In which year did World War II begin?",
+                answers: ["1939", "1941", "1940", "1938"],
+                correct: 0
+            },
+            {
+                question: "Who was the leader of Nazi Germany during World War II?",
+                answers: ["Joseph Stalin", "Adolf Hitler", "Benito Mussolini", "Winston Churchill"],
+                correct: 1
+            },
+            {
+                question: "What was the code name for the Allied invasion of Normandy in 1944?",
+                answers: ["Operation Barbarossa", "Operation Overlord", "Operation Market Garden", "Operation Torch"],
+                correct: 1
+            },
+            {
+                question: "Which country was not part of the Axis powers?",
+                answers: ["Germany", "Italy", "Japan", "Soviet Union"],
+                correct: 3
+            },
+            {
+                question: "What was the name of the atomic bomb dropped on Hiroshima?",
+                answers: ["Fat Man", "Little Boy", "Big Ben", "Thin Man"],
+                correct: 1
+            },
+            {
+                question: "Which battle is often considered the turning point of World War II in Europe?",
+                answers: ["Battle of Britain", "Battle of Stalingrad", "Battle of Midway", "Battle of the Bulge"],
+                correct: 1
+            },
+            {
+                question: "Who was the President of the United States for most of World War II?",
+                answers: ["Herbert Hoover", "Franklin D. Roosevelt", "Harry S. Truman", "Dwight D. Eisenhower"],
+                correct: 1
+            },
+            {
+                question: "What was the name of the German air force during World War II?",
+                answers: ["Wehrmacht", "Luftwaffe", "Kriegsmarine", "Waffen-SS"],
+                correct: 1
+            },
+            {
+                question: "Which country was neutral during World War II?",
+                answers: ["Italy", "Sweden", "Hungary", "Romania"],
+                correct: 1
+            },
+            {
+                question: "What was the code name for the German invasion of the Soviet Union?",
+                answers: ["Operation Sealion", "Operation Barbarossa", "Operation Citadel", "Operation Valkyrie"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const passingScore = 5;
+        const quizContainer = document.getElementById('quiz-container');
+        const nextButton = document.getElementById('next-btn');
+        const resultButton = document.getElementById('result-btn');
+        const retryButton = document.getElementById('retry-btn');
+        const reviewButton = document.getElementById('review-btn');
+        const resultDiv = document.getElementById('result');
+        let selectedAnswers = [];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <div class="question">
+                        <p>Question ${currentQuestion + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer" data-index="${i}">${answer}</button>
+                        `).join('')}
+                    </div>
+                `;
+
+                const answerButtons = quizContainer.querySelectorAll('.answer');
+                answerButtons.forEach(button => {
+                    button.addEventListener('click', handleAnswer);
+                });
+
+                nextButton.style.display = 'none';
+            } else {
+                showResult();
+            }
+        }
+
+        function handleAnswer(e) {
+            const selectedIndex = parseInt(e.target.getAttribute('data-index'));
+            const q = questions[currentQuestion];
+
+            const answerButtons = quizContainer.querySelectorAll('.answer');
+            answerButtons.forEach(button => {
+                button.disabled = true;
+                const buttonIndex = parseInt(button.getAttribute('data-index'));
+                if (buttonIndex === q.correct) {
+                    button.classList.add('correct');
+                } else if (buttonIndex === selectedIndex) {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+
+            selectedAnswers[currentQuestion] = selectedIndex;
+
+            nextButton.style.display = 'block';
+        }
+
+        function showNextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                nextButton.style.display = 'none';
+                resultButton.style.display = 'block';
+            }
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = '';
+            resultButton.style.display = 'none';
+
+            const percentage = (score / questions.length) * 100;
+            const resultContainer = document.createElement('div');
+            resultContainer.classList.add('result-container');
+            resultContainer.innerHTML = `
+                <div class="result-icon ${score >= passingScore ? 'success' : 'failure'}">
+                    ${score >= passingScore ? '✔️' : '❌'}
+                </div>
+                <p>${score >= passingScore ? 'Nice job, you passed!' : 'Sorry, you didn\'t pass.'}</p>
+                <div class="score-box">
+                    <div>
+                        <p>${percentage.toFixed(0)}%</p>
+                        <small>Your Score</small>
+                    </div>
+                    <div>
+                        <p>${score}</p>
+                        <small>Your Points</small>
+                    </div>
+                </div>
+            `;
+            quizContainer.appendChild(resultContainer);
+
+            retryButton.style.display = 'block';
+            reviewButton.style.display = 'block';
+        }
+
+        function retryQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswers = [];
+            retryButton.style.display = 'none';
+            reviewButton.style.display = 'none';
+            showQuestion();
+        }
+
+        function reviewQuiz() {
+            quizContainer.innerHTML = '';
+            selectedAnswers.forEach((selectedAnswer, questionIndex) => {
+                const q = questions[questionIndex];
+                const isCorrect = selectedAnswer === q.correct;
+                quizContainer.innerHTML += `
+                    <div class="question">
+                        <p>Question ${questionIndex + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer ${i === q.correct ? 'correct' : (i === selectedAnswer ? 'incorrect' : '')}">
+                                ${answer}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            });
+        }
+
+        shuffleArray(questions);
+        showQuestion();
+
+        nextButton.addEventListener('click', showNextQuestion);
+        resultButton.addEventListener('click', showResult);
+        retryButton.addEventListener('click', retryQuiz);
+        reviewButton.addEventListener('click', reviewQuiz);
+    </script>
+</body>
+</html>

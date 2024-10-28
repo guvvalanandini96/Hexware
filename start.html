@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black; /* Fallback background color */
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            color: white;
+            height: 100vh;
+            width: 100vw;
+            background-image: url('https://cdn.pixabay.com/photo/2023/06/14/18/22/ai-generated-8063802_640.jpg'); /* Update with your image path */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+        }
+
+        .content {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .content h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fbb03b;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .start-btn {
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none; /* Remove underline for link */
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .start-btn:hover {
+            background-color: #ff4040;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Quizard</h1>
+            <p>Get Ready to Unleash Your Inner Genius!</p>
+            <!-- Updated Start Button as an Anchor Tag -->
+            <a href="login.html" class="start-btn">Start</a>
+        </div>
+    </div>
+</body>
+</html>

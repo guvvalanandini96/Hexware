@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Fundamentals Quiz</title>
+    <style>
+        /* Use the same style as before */
+    </style>
+</head>
+<body>
+    <h1>Java Fundamentals Quiz</h1>
+    <div id="quiz-container"></div>
+    <button id="next-btn" style="display: none;">Next Question</button>
+    <button id="result-btn" style="display: none;">Show Result</button>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which method is used to start a Java application?",
+                answers: ["start()", "init()", "run()", "main()"],
+                correct: 3
+            },
+            {
+                question: "Which keyword is used to inherit a class in Java?",
+                answers: ["this", "extends", "implements", "inherits"],
+                correct: 1
+            },
+            {
+                question: "What is the size of an int variable in Java?",
+                answers: ["8 bits", "16 bits", "32 bits", "64 bits"],
+                correct: 2
+            },
+            {
+                question: "Which access modifier allows visibility only within the same package?",
+                answers: ["private", "public", "protected", "default"],
+                correct: 3
+            },
+            {
+                question: "Which of these is not a reserved keyword in Java?",
+                answers: ["class", "inherit", "interface", "enum"],
+                correct: 1
+            },
+            {
+                question: "What is the correct way to declare a constant in Java?",
+                answers: ["final", "constant", "const", "static"],
+                correct: 0
+            },
+            {
+                question: "Which of the following is used to create an array in Java?",
+                answers: ["new[]", "new()", "new[]()", "new[]{}"],
+                correct: 0
+            },
+            {
+                question: "Which method can be used to get the length of an array?",
+                answers: ["size()", "length", "length()", "count()"],
+                correct: 1
+            },
+            {
+                question: "What is the default value of a boolean variable in Java?",
+                answers: ["true", "false", "null", "0"],
+                correct: 1
+            },
+            {
+                question: "What is the superclass for all classes in Java?",
+                answers: ["Object", "Main", "Super", "Root"],
+                correct: 0
+            },
+            {
+                question: "Which of the following is not a Java primitive data type?",
+                answers: ["int", "float", "string", "boolean"],
+                correct: 2
+            },
+            {
+                question: "Which keyword is used to create an instance of a class?",
+                answers: ["this", "new", "super", "create"],
+                correct: 1
+            },
+            {
+                question: "What is the default constructor in Java?",
+                answers: ["A constructor provided by the developer", "A constructor with parameters", "A no-argument constructor provided by the compiler", "A constructor that initializes fields"],
+                correct: 2
+            },
+            {
+                question: "Which of the following is used to handle exceptions in Java?",
+                answers: ["try-catch", "catch-finally", "throw-finally", "catch-throw"],
+                correct: 0
+            },
+            {
+                question: "Which keyword is used to call the parent class constructor?",
+                answers: ["this()", "super()", "parent()", "base()"],
+                correct: 1
+            },
+            {
+                question: "What is the name of the method used to compare two objects in Java?",
+                answers: ["equals()", "compareTo()", "compare()", "isEqual()"],
+                correct: 0
+            },
+            {
+                question: "Which keyword is used to define an abstract method in Java?",
+                answers: ["final", "static", "abstract", "public"],
+                correct: 2
+            },
+            {
+                question: "How do you prevent inheritance of a class in Java?",
+                answers: ["static", "private", "final", "abstract"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        const nextButton = document.getElementById('next-btn');
+        const resultButton = document.getElementById('result-btn');
+        const resultDiv = document.getElementById('result');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <div class="question">
+                        <p>Question ${currentQuestion + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer" data-index="${i}">${answer}</button>
+                        `).join('')}
+                    </div>
+                `;
+
+                const answerButtons = quizContainer.querySelectorAll('.answer');
+                answerButtons.forEach(button => {
+                    button.addEventListener('click', handleAnswer);
+                });
+
+                nextButton.style.display = 'none';
+            } else {
+                showResult();
+            }
+        }
+
+        function handleAnswer(e) {
+            const selectedIndex = parseInt(e.target.getAttribute('data-index'));
+            const q = questions[currentQuestion];
+
+            const answerButtons = quizContainer.querySelectorAll('.answer');
+            answerButtons.forEach(button => {
+                button.disabled = true;
+                const buttonIndex = parseInt(button.getAttribute('data-index'));
+                if (buttonIndex === q.correct) {
+                    button.classList.add('correct');
+                } else if (buttonIndex === selectedIndex) {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+
+            nextButton.style.display = 'block';
+        }
+
+        function showNextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                nextButton.style.display = 'none';
+                resultButton.style.display = 'block';
+            }
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = '';
+            resultButton.style.display = 'none';
+            resultDiv.textContent = `Your score: ${score} out of ${questions.length}`;
+        }
+
+        shuffleArray(questions);
+        showQuestion();
+
+        nextButton.addEventListener('click', showNextQuestion);
+        resultButton.addEventListener('click', showResult);
+    </script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Control Structures Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+        h1 {
+            text-align: center;
+            color: #2b6cb0;
+        }
+        #quiz-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a365d;
+        }
+        .answer {
+            display: block;
+            margin: 10px 0;
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            background-color: #edf2f7;
+            color: #2d3748;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .answer:hover {
+            background-color: #e2e8f0;
+        }
+        .answer.correct {
+            background-color: #48bb78;
+            color: #ffffff;
+            border-color: #2f855a;
+        }
+        .answer.incorrect {
+            background-color: #f56565;
+            color: #ffffff;
+            border-color: #c53030;
+        }
+        #next-btn, #result-btn, #retry-btn, #review-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4299e1;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #next-btn:hover, #result-btn:hover, #retry-btn:hover, #review-btn:hover {
+            background-color: #3182ce;
+        }
+        #result {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 20px;
+            color: #2b6cb0;
+        }
+        .result-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .result-container .result-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .result-container.success .result-icon {
+            color: #48bb78;
+        }
+        .result-container.failure .result-icon {
+            color: #f56565;
+        }
+        .result-container p {
+            margin: 10px 0;
+            font-size: 22px;
+        }
+        .score-box {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .score-box div {
+            background-color: #edf2f7;
+            padding: 20px;
+            border-radius: 10px;
+            width: 150px;
+        }
+        .score-box div p {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+        .score-box div small {
+            font-size: 12px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <h1>C Control Structures Quiz</h1>
+    <div id="quiz-container"></div>
+    <button id="next-btn" style="display: none;">Next Question</button>
+    <button id="result-btn" style="display: none;">Show Result</button>
+    <button id="retry-btn" style="display: none;">Retry Quiz</button>
+    <button id="review-btn" style="display: none;">Review Quiz</button>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            { question: "Which keyword is used to check a condition in C?", answers: ["if", "check", "switch", "case"], correct: 0 },
+            { question: "What does the 'else if' statement represent in C?", answers: ["An alternative to the 'if' statement", "A way to end the 'if' block", "A way to check multiple conditions", "A loop structure"], correct: 2 },
+            { question: "What is the purpose of the 'break' statement in C?", answers: ["To break the loop", "To exit a function", "To stop the execution of a loop or switch", "To start a new iteration"], correct: 2 },
+            { question: "What does the 'continue' statement do in a loop?", answers: ["It skips the current iteration", "It breaks the loop", "It restarts the loop", "It terminates the program"], correct: 0 },
+            { question: "Which loop structure is used to iterate over a block of code multiple times?", answers: ["if-else", "for", "switch", "case"], correct: 1 },
+            { question: "Which control structure allows for the execution of one block of code among multiple options?", answers: ["if-else", "for loop", "switch", "goto"], correct: 2 },
+            { question: "What is the syntax of the 'for' loop in C?", answers: ["for(initialization; condition; increment/decrement)", "for(condition; increment/decrement; initialization)", "for(increment/decrement; initialization; condition)", "for(initialization; increment/decrement; condition)"], correct: 0 },
+            { question: "How is a 'do-while' loop different from a 'while' loop?", answers: ["'do-while' checks the condition after execution", "'while' checks the condition after execution", "'do-while' is executed only once", "'while' executes at least once"], correct: 0 },
+            { question: "Which of the following is used to terminate a function and return a value?", answers: ["return", "exit", "break", "continue"], correct: 0 },
+            { question: "Which keyword is used to define a block of code that executes regardless of conditions?", answers: ["default", "finally", "else", "switch"], correct: 2 },
+            { question: "What is the purpose of the 'switch' statement?", answers: ["To execute one case out of many", "To create a loop", "To declare multiple variables", "To stop program execution"], correct: 0 },
+            { question: "Which keyword is used to exit the switch statement in C?", answers: ["exit", "break", "stop", "end"], correct: 1 },
+            { question: "Which of the following can be used to define a conditional block?", answers: ["if", "else", "switch", "All of the above"], correct: 3 },
+            { question: "Which loop executes its body at least once?", answers: ["for", "while", "do-while", "All of the above"], correct: 2 },
+            { question: "What is the difference between 'if-else' and 'switch'?", answers: ["'if-else' is used for ranges, 'switch' for specific values", "'if-else' is faster", "'switch' can handle multiple ranges", "'switch' does not support break"], correct: 0 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const passingScore = 10; // Customize this to your preference
+        const quizContainer = document.getElementById('quiz-container');
+        const nextButton = document.getElementById('next-btn');
+        const resultButton = document.getElementById('result-btn');
+        const retryButton = document.getElementById('retry-btn');
+        const reviewButton = document.getElementById('review-btn');
+        const resultDiv = document.getElementById('result');
+        let selectedAnswers = [];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <div class="question">
+                        <p>Question ${currentQuestion + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer" data-index="${i}">${answer}</button>
+                        `).join('')}
+                    </div>
+                `;
+
+                const answerButtons = quizContainer.querySelectorAll('.answer');
+                answerButtons.forEach(button => {
+                    button.addEventListener('click', handleAnswer);
+                });
+
+                nextButton.style.display = 'none';
+            } else {
+                showResult();
+            }
+        }
+
+        function handleAnswer(e) {
+            const selectedIndex = parseInt(e.target.getAttribute('data-index'));
+            const q = questions[currentQuestion];
+            selectedAnswers[currentQuestion] = selectedIndex;
+
+            const answerButtons = quizContainer.querySelectorAll('.answer');
+            answerButtons.forEach(button => {
+                button.disabled = true;
+                const buttonIndex = parseInt(button.getAttribute('data-index'));
+                if (buttonIndex === q.correct) {
+                    button.classList.add('correct');
+                } else if (buttonIndex === selectedIndex) {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+
+            nextButton.style.display = 'block';
+        }
+
+        function showNextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                nextButton.style.display = 'none';
+                resultButton.style.display = 'block';
+            }
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = '';
+            resultButton.style.display = 'none';
+
+            const percentage = (score / questions.length) * 100;
+            const resultContainer = document.createElement('div');
+            resultContainer.classList.add('result-container');
+            resultContainer.innerHTML = `
+                <div class="result-icon ${score >= passingScore ? 'success' : 'failure'}">
+                    ${score >= passingScore ? '✔️' : '❌'}
+                </div>
+                <p>${score >= passingScore ? 'Nice job, you passed!' : 'Sorry, you didn\'t pass.'}</p>
+                <div class="score-box">
+                    <div>
+                        <p>${percentage.toFixed(0)}%</p>
+                        <small>Your Score</small>
+                    </div>
+                    <div>
+                        <p>${score}</p>
+                        <small>Your Points</small>
+                    </div>
+                </div>
+            `;
+            quizContainer.appendChild(resultContainer);
+
+            retryButton.style.display = 'block';
+            reviewButton.style.display = 'block';
+        }
+
+        function retryQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswers = [];
+            retryButton.style.display = 'none';
+            reviewButton.style.display = 'none';
+            showQuestion();
+        }
+
+        function reviewQuiz() {
+            quizContainer.innerHTML = '';
+            selectedAnswers.forEach((selectedAnswer, questionIndex) => {
+                const q = questions[questionIndex];
+                const isCorrect = selectedAnswer === q.correct;
+                quizContainer.innerHTML += `
+                    <div class="question">
+                        <p>Question ${questionIndex + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer ${i === q.correct ? 'correct' : (i === selectedAnswer ? 'incorrect' : '')}">
+                                ${answer}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            });
+        }
+
+        shuffleArray(questions);
+        showQuestion();
+
+        nextButton.addEventListener('click', showNextQuestion);
+        resultButton.addEventListener('click', showResult);
+        retryButton.addEventListener('click', retryQuiz);
+        reviewButton.addEventListener('click', reviewQuiz);
+    </script>
+</body>
+</html>

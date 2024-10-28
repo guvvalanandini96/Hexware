@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Wonders Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+        h1 {
+            text-align: center;
+            color: #2b6cb0;
+        }
+        #quiz-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .answer {
+            display: block;
+            margin: 10px 0;
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            background-color: #edf2f7;
+            color: #2d3748;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .answer:hover {
+            background-color: #e2e8f0;
+        }
+        .answer.correct {
+            background-color: #48bb78;
+            color: #ffffff;
+            border-color: #2f855a;
+        }
+        .answer.incorrect {
+            background-color: #f56565;
+            color: #ffffff;
+            border-color: #c53030;
+        }
+        #next-btn, #result-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #2b6cb0;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #next-btn:hover, #result-btn:hover {
+            background-color: #2c5282;
+        }
+        #result {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 20px;
+            color: #2b6cb0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Natural Wonders Quiz</h1>
+    <div id="quiz-container"></div>
+    <button id="next-btn" style="display: none;">Next Question</button>
+    <button id="result-btn" style="display: none;">Show Result</button>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which of these is the world's largest coral reef system?",
+                answers: ["Belize Barrier Reef", "Great Barrier Reef", "Red Sea Coral Reef", "New Caledonia Barrier Reef"],
+                correct: 1
+            },
+            {
+                question: "In which country would you find the Northern Lights (Aurora Borealis) most frequently?",
+                answers: ["Canada", "Russia", "Iceland", "Norway"],
+                correct: 2
+            },
+            {
+                question: "What is the name of the world's largest hot spring?",
+                answers: ["Grand Prismatic Spring", "Frying Pan Lake", "Boiling Lake", "Uzon Caldera"],
+                correct: 0
+            },
+            {
+                question: "Which of these is NOT one of the Seven Natural Wonders of the World?",
+                answers: ["Mount Everest", "Victoria Falls", "Grand Canyon", "Great Barrier Reef"],
+                correct: 0
+            },
+            {
+                question: "What type of rock formation is Uluru (Ayers Rock) in Australia?",
+                answers: ["Granite", "Limestone", "Sandstone", "Basalt"],
+                correct: 2
+            },
+            {
+                question: "Which country is home to the Salar de Uyuni, the world's largest salt flat?",
+                answers: ["Chile", "Peru", "Argentina", "Bolivia"],
+                correct: 3
+            },
+            {
+                question: "What causes the pink color of Lake Hillier in Australia?",
+                answers: ["Algae", "Bacteria", "Mineral deposits", "Pollution"],
+                correct: 1
+            },
+            {
+                question: "Which of these is the world's highest uninterrupted waterfall?",
+                answers: ["Niagara Falls", "Victoria Falls", "Angel Falls", "Iguazu Falls"],
+                correct: 2
+            },
+            {
+                question: "In which mountain range would you find Mount Kilimanjaro?",
+                answers: ["Andes", "Himalayas", "Alps", "None of the above"],
+                correct: 3
+            },
+            {
+                question: "What is the name of the supervolcano located in Yellowstone National Park?",
+                answers: ["Mount St. Helens", "Krakatoa", "Vesuvius", "Yellowstone Caldera"],
+                correct: 3
+            },
+            {
+                question: "Which of these natural wonders is known for its hexagonal basalt columns?",
+                answers: ["Giant's Causeway", "Cliffs of Moher", "White Cliffs of Dover", "Ha Long Bay"],
+                correct: 0
+            },
+            {
+                question: "What is the primary gas that causes the blue flame phenomenon in Indonesia's Kawah Ijen volcano?",
+                answers: ["Methane", "Sulfur dioxide", "Carbon dioxide", "Nitrogen"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        const nextButton = document.getElementById('next-btn');
+        const resultButton = document.getElementById('result-btn');
+        const resultDiv = document.getElementById('result');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <div class="question">
+                        <p>Question ${currentQuestion + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer" data-index="${i}">${answer}</button>
+                        `).join('')}
+                    </div>
+                `;
+
+                const answerButtons = quizContainer.querySelectorAll('.answer');
+                answerButtons.forEach(button => {
+                    button.addEventListener('click', handleAnswer);
+                });
+
+                nextButton.style.display = 'none';
+            } else {
+                showResult();
+            }
+        }
+
+        function handleAnswer(e) {
+            const selectedIndex = parseInt(e.target.getAttribute('data-index'));
+            const q = questions[currentQuestion];
+
+            const answerButtons = quizContainer.querySelectorAll('.answer');
+            answerButtons.forEach(button => {
+                button.disabled = true;
+                const buttonIndex = parseInt(button.getAttribute('data-index'));
+                if (buttonIndex === q.correct) {
+                    button.classList.add('correct');
+                } else if (buttonIndex === selectedIndex) {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+
+            nextButton.style.display = 'block';
+        }
+
+        function showNextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                nextButton.style.display = 'none';
+                resultButton.style.display = 'block';
+            }
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = '';
+            resultButton.style.display = 'none';
+            resultDiv.textContent = `Your score: ${score} out of ${questions.length}`;
+        }
+
+        shuffleArray(questions);
+        showQuestion();
+
+        nextButton.addEventListener('click', showNextQuestion);
+        resultButton.addEventListener('click', showResult);
+    </script>
+</body>
+</html>

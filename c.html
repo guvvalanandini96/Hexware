@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Programming Basics Quiz</title>
+    <style>
+        /* Use the same style as before */
+    </style>
+</head>
+<body>
+    <h1>C Programming Basics Quiz</h1>
+    <div id="quiz-container"></div>
+    <button id="next-btn" style="display: none;">Next Question</button>
+    <button id="result-btn" style="display: none;">Show Result</button>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which function is used to print a string in C?",
+                answers: ["printf()", "scanf()", "puts()", "getchar()"],
+                correct: 0
+            },
+            {
+                question: "Which of the following is a correct variable declaration in C?",
+                answers: ["int 1x;", "int x;", "int @x;", "int #x;"],
+                correct: 1
+            },
+            {
+                question: "What is the size of an int variable in C?",
+                answers: ["2 bytes", "4 bytes", "8 bytes", "16 bytes"],
+                correct: 1
+            },
+            {
+                question: "Which symbol is used to start a comment in C?",
+                answers: ["//", "/*", "#", "@"],
+                correct: 0
+            },
+            {
+                question: "What is the default value of a local variable in C?",
+                answers: ["0", "NULL", "Garbage value", "Undefined"],
+                correct: 2
+            },
+            {
+                question: "Which header file is required for using the malloc function?",
+                answers: ["<conio.h>", "<math.h>", "<stdlib.h>", "<stdio.h>"],
+                correct: 2
+            },
+            {
+                question: "Which keyword is used to define a constant in C?",
+                answers: ["constant", "final", "const", "static"],
+                correct: 2
+            },
+            {
+                question: "What is the correct way to declare an array in C?",
+                answers: ["int[] arr;", "int arr[10];", "array int[10];", "arr[10] int;"],
+                correct: 1
+            },
+            {
+                question: "Which function is used to read input from the user in C?",
+                answers: ["printf()", "scanf()", "fgets()", "gets()"],
+                correct: 1
+            },
+            {
+                question: "What is a pointer in C?",
+                answers: ["A variable that stores a memory address", "A variable that points to a function", "A memory location", "An array"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        const nextButton = document.getElementById('next-btn');
+        const resultButton = document.getElementById('result-btn');
+        const resultDiv = document.getElementById('result');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <div class="question">
+                        <p>Question ${currentQuestion + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer" data-index="${i}">${answer}</button>
+                        `).join('')}
+                    </div>
+                `;
+
+                const answerButtons = quizContainer.querySelectorAll('.answer');
+                answerButtons.forEach(button => {
+                    button.addEventListener('click', handleAnswer);
+                });
+
+                nextButton.style.display = 'none';
+            } else {
+                showResult();
+            }
+        }
+
+        function handleAnswer(e) {
+            const selectedIndex = parseInt(e.target.getAttribute('data-index'));
+            const q = questions[currentQuestion];
+
+            const answerButtons = quizContainer.querySelectorAll('.answer');
+            answerButtons.forEach(button => {
+                button.disabled = true;
+                const buttonIndex = parseInt(button.getAttribute('data-index'));
+                if (buttonIndex === q.correct) {
+                    button.classList.add('correct');
+                } else if (buttonIndex === selectedIndex) {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+
+            nextButton.style.display = 'block';
+        }
+
+        function showNextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                nextButton.style.display = 'none';
+                resultButton.style.display = 'block';
+            }
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = '';
+            resultButton.style.display = 'none';
+            resultDiv.textContent = `Your score: ${score} out of ${questions.length}`;
+        }
+
+        shuffleArray(questions);
+        showQuestion();
+
+        nextButton.addEventListener('click', showNextQuestion);
+        resultButton.addEventListener('click', showResult);
+    </script>
+</body>
+</html>

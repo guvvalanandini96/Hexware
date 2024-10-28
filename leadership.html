@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Leaderboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-4 max-w-2xl">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Header -->
+            <div class="bg-indigo-600 px-6 py-4">
+                <h1 class="text-2xl font-bold text-white flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Quiz Leaderboard
+                </h1>
+            </div>
+
+            <!-- Filters -->
+            <div class="bg-gray-50 px-6 py-3 border-b flex justify-between items-center">
+                <div class="flex space-x-2">
+                    <button onclick="showLeaderboard('allTime')" id="allTimeBtn" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-sm font-medium">All Time</button>
+                    <button onclick="showLeaderboard('monthly')" id="monthlyBtn" class="px-3 py-1 text-gray-500 rounded-full text-sm font-medium hover:bg-gray-100">Monthly</button>
+                    <button onclick="showLeaderboard('weekly')" id="weeklyBtn" class="px-3 py-1 text-gray-500 rounded-full text-sm font-medium hover:bg-gray-100">Weekly</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard Lists - One for each time period -->
+            <div id="allTimeList" class="divide-y divide-gray-100">
+                <!-- Top 3 with special styling -->
+                <div class="px-6 py-4 flex items-center bg-gradient-to-r from-yellow-50 to-transparent">
+                    <div class="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-full mr-4">
+                        <span class="text-yellow-600 font-bold text-xl">1</span>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?img=1" alt="User avatar" class="w-10 h-10 rounded-full mr-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-gray-900">Sarah Johnson</h3>
+                        <p class="text-sm text-gray-500">950 points • 15 quizzes</p>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <span class="font-bold text-gray-900">950</span>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 flex items-center bg-gradient-to-r from-gray-50 to-transparent">
+                    <div class="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mr-4">
+                        <span class="text-gray-600 font-bold text-xl">2</span>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?img=2" alt="User avatar" class="w-10 h-10 rounded-full mr-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-gray-900">Mike Chen</h3>
+                        <p class="text-sm text-gray-500">820 points • 12 quizzes</p>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-bold text-gray-900">820</span>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 flex items-center bg-gradient-to-r from-orange-50 to-transparent">
+                    <div class="w-12 h-12 flex items-center justify-center bg-orange-100 rounded-full mr-4">
+                        <span class="text-orange-600 font-bold text-xl">3</span>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?img=3" alt="User avatar" class="w-10 h-10 rounded-full mr-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-gray-900">Alex Turner</h3>
+                        <p class="text-sm text-gray-500">780 points • 10 quizzes</p>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-bold text-gray-900">780</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="monthlyList" class="divide-y divide-gray-100 hidden">
+                <!-- Monthly Top 3 -->
+                <div class="px-6 py-4 flex items-center bg-gradient-to-r from-yellow-50 to-transparent">
+                    <div class="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-full mr-4">
+                        <span class="text-yellow-600 font-bold text-xl">1</span>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?img=4" alt="User avatar" class="w-10 h-10 rounded-full mr-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-gray-900">Emma Wilson</h3>
+                        <p class="text-sm text-gray-500">450 points • 8 quizzes</p>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <span class="font-bold text-gray-900">450</span>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 flex items-center bg-gradient-to-r from-gray-50 to-transparent">
+                    <div class="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mr-4">
+                        <span class="text-gray-600 font-bold text-xl">2</span>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?img=5" alt="User avatar" class="w-10 h-10 rounded-full mr-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-gray-900">David Park</h3>
+                        <p class="text-sm text-gray-500">380 points • 6 quizzes</p>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-bold text-gray-900">380</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="weeklyList" class="divide-y divide-gray-100 hidden">
+                <!-- Weekly Top 3 -->
+                <div class="px-6 py-4 flex items-center bg-gradient-to-r from-yellow-50 to-transparent">
+                    <div class="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-full mr-4">
+                        <span class="text-yellow-600 font-bold text-xl">1</span>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?img=6" alt="User avatar" class="w-10 h-10 rounded-full mr-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-gray-900">Lisa Brown</h3>
+                        <p class="text-sm text-gray-500">220 points • 4 quizzes</p>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <span class="font-bold text-gray-900">220</span>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 flex items-center bg-gradient-to-r from-gray-50 to-transparent">
+                    <div class="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mr-4">
+                        <span class="text-gray-600 font-bold text-xl">2</span>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?img=7" alt="User avatar" class="w-10 h-10 rounded-full mr-4">
+                    <div class="flex-grow">
+                        <h3 class="font-semibold text-gray-900">Tom Wilson</h3>
+                        <p class="text-sm text-gray-500">180 points • 3 quizzes</p>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-bold text-gray-900">180</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        feather.replace();
+
+        function showLeaderboard(period) {
+            // Hide all lists
+            document.getElementById('allTimeList').classList.add('hidden');
+            document.getElementById('monthlyList').classList.add('hidden');
+            document.getElementById('weeklyList').classList.add('hidden');
+            
+            // Reset all button styles
+            document.getElementById('allTimeBtn').classList.remove('bg-indigo-100', 'text-indigo-600');
+            document.getElementById('monthlyBtn').classList.remove('bg-indigo-100', 'text-indigo-600');
+            document.getElementById('weeklyBtn').classList.remove('bg-indigo-100', 'text-indigo-600');
+            
+            document.getElementById('allTimeBtn').classList.add('text-gray-500');
+            document.getElementById('monthlyBtn').classList.add('text-gray-500');
+            document.getElementById('weeklyBtn').classList.add('text-gray-500');
+            
+            // Show selected list and style its button
+            document.getElementById(period + 'List').classList.remove('hidden');
+            document.getElementById(period + 'Btn').classList.remove('text-gray-500');
+            document.getElementById(period + 'Btn').classList.add('bg-indigo-100', 'text-indigo-600');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App Updates</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --background: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --success: #22c55e;
+            --warning: #eab308;
+            --info: #0ea5e9;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .current-version {
+            background: var(--card);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .version-badge {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .update-status {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--success);
+            font-size: 0.875rem;
+        }
+
+        .feature-list {
+            margin-top: 1.5rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .feature-item:hover {
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .feature-content h3 {
+            margin-bottom: 0.25rem;
+            color: var(--text);
+        }
+
+        .feature-content p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .timeline {
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--card);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+        }
+
+        .timeline-content {
+            background: var(--card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .version-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .version-tag.new {
+            background: var(--success);
+            color: white;
+        }
+
+        .version-tag.coming {
+            background: var(--warning);
+            color: white;
+        }
+
+        .changelog-list {
+            margin-top: 1rem;
+            list-style: none;
+        }
+
+        .changelog-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .changelog-item i {
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+
+        .update-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .update-button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .update-status {
+                position: static;
+                margin-top: 1rem;
+            }
+
+            .timeline::before {
+                left: 0.75rem;
+            }
+
+            .timeline-item {
+                padding-left: 2.5rem;
+            }
+
+            .timeline-dot {
+                left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>What's New</h1>
+            <p>Keep track of the latest updates and improvements</p>
+        </header>
+
+        <section class="current-version">
+            <span class="version-badge">Version 2.5.0</span>
+            <div class="update-status">
+                <i class="fas fa-check-circle"></i>
+                Up to date
+            </div>
+            <h2>Latest Update</h2>
+            <p>Major features and improvements for a better quiz experience</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>AI-Powered Questions</h3>
+                        <p>Dynamically generated questions that adapt to your skill level</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Multiplayer Mode</h3>
+                        <p>Challenge your friends in real-time quiz battles</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Enhanced Analytics</h3>
+                        <p>Detailed insights into your learning progress</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="update-button">
+                <i class="fas fa-download"></i>
+                Update Now
+            </button>
+        </section>
+
+        <section class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="version-tag new">New</span>
+                    <h3>Version 2.5.0</h3>
+                    <p>Released on October 25, 2024</p>
+                    <ul class="changelog-list">
+                        <li class="changelog-item">
+                            <i class="fas fa-star"></i>
+                            Introduced AI-powered question generation
+                        </li>
+                        <li class="changelog-item">
+                            <i class="fas fa-star"></i>
+                            Added multiplayer quiz mode
+                        </li>
+                        <li class="changelog-item">
+                            <i class="fas fa-bug"></i>
+                            Fixed timer sync issues in practice mode
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Version 2.4.2</h3>
+                    <p>Released on October 10, 2024</p>
+                    <ul class="changelog-list">
+                        <li class="changelog-item">
+                            <i class="fas fa-check"></i>
+                            Performance improvements
+                        </li>
+                        <li class="changelog-item">
+                            <i class="fas fa-check"></i>
+                            Bug fixes in statistics tracking
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="version-tag coming">Coming Soon</span>
+                    <h3>Version 2.6.0</h3>
+                    <p>Planned for November 2024</p>
+                    <ul class="changelog-list">
+                        <li class="changelog-item">
+                            <i class="fas fa-clock"></i>
+                            Advanced difficulty settings
+                        </li>
+                        <li class="changelog-item">
+                            <i class="fas fa-clock"></i>
+                            Custom quiz creation tools
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

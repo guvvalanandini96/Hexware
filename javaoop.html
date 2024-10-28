@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Quiz</title>
+    <style>
+        /* Use the same style as before */
+    </style>
+</head>
+<body>
+    <h1>Java OOP Quiz</h1>
+    <div id="quiz-container"></div>
+    <button id="next-btn" style="display: none;">Next Question</button>
+    <button id="result-btn" style="display: none;">Show Result</button>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is encapsulation in Java?",
+                answers: ["Hiding implementation details", "Reusing code", "Inheriting classes", "Defining constants"],
+                correct: 0
+            },
+            {
+                question: "Which keyword is used to achieve inheritance in Java?",
+                answers: ["extends", "implements", "inherit", "super"],
+                correct: 0
+            },
+            {
+                question: "What is the main purpose of polymorphism in Java?",
+                answers: ["To define multiple forms", "To hide data", "To create complex objects", "To encapsulate data"],
+                correct: 0
+            },
+            {
+                question: "How is abstraction achieved in Java?",
+                answers: ["Using interfaces and abstract classes", "Using inheritance", "Using private methods", "Using final classes"],
+                correct: 0
+            },
+            {
+                question: "What is an interface in Java?",
+                answers: ["A contract for classes", "A type of constructor", "A keyword for inheritance", "A method to stop execution"],
+                correct: 0
+            },
+            {
+                question: "Which keyword is used to override methods in Java?",
+                answers: ["@Override", "@Overload", "@Overwrite", "@Replace"],
+                correct: 0
+            },
+            {
+                question: "Which of the following is true about constructors in Java?",
+                answers: ["They can have the same name as the class", "They cannot have parameters", "They cannot be overloaded", "They must return void"],
+                correct: 0
+            },
+            {
+                question: "What is the term for converting a subclass object to a superclass type?",
+                answers: ["Upcasting", "Downcasting", "Polymorphing", "Binding"],
+                correct: 0
+            },
+            {
+                question: "What is the role of 'super' keyword in Java?",
+                answers: ["To call a parent class constructor", "To declare a method", "To create an interface", "To perform polymorphism"],
+                correct: 0
+            },
+            {
+                question: "Which keyword is used to restrict inheritance of a class?",
+                answers: ["final", "static", "private", "abstract"],
+                correct: 0
+            },
+            {
+                question: "What is method overloading?",
+                answers: ["Having multiple methods with the same name but different parameters", "Overriding a method", "Having multiple constructors", "Creating abstract methods"],
+                correct: 0
+            },
+            {
+                question: "What is method overriding in Java?",
+                answers: ["Providing a specific implementation of a method that is already defined in a parent class", "Overloading a constructor", "Creating multiple constructors", "Using polymorphism"],
+                correct: 0
+            },
+            {
+                question: "What is the difference between abstract classes and interfaces?",
+                answers: ["Abstract classes can have concrete methods, interfaces cannot", "Interfaces can have fields, abstract classes cannot", "Abstract classes can be instantiated, interfaces cannot", "Interfaces cannot be extended, abstract classes can"],
+                correct: 0
+            },
+            {
+                question: "Which keyword is used to declare a class abstract in Java?",
+                answers: ["abstract", "interface", "static", "final"],
+                correct: 0
+            },
+            {
+                question: "How do you implement multiple inheritance in Java?",
+                answers: ["By implementing multiple interfaces", "By extending multiple classes", "By using constructors", "By using final classes"],
+                correct: 0
+            },
+            {
+                question: "Which design pattern is used for object creation in Java?",
+                answers: ["Factory", "Singleton", "Observer", "Builder"],
+                correct: 3
+            },
+            {
+                question: "Which of the following is a valid return type for a constructor?",
+                answers: ["None", "void", "Object", "Class"],
+                correct: 0
+            },
+            {
+                question: "Which of the following is used for dependency injection in Java?",
+                answers: ["Constructor", "Setter methods", "Field injection", "All of the above"],
+                correct: 3
+            },
+            {
+                question: "What is an inner class in Java?",
+                answers: ["A class defined inside another class", "A class that is abstract", "A class that cannot be inherited", "A class with no constructor"],
+                correct: 0
+            },
+            {
+                question: "What does 'this' keyword represent in Java?",
+                answers: ["The current instance of a class", "A reference to the parent class", "A way to declare methods", "A way to implement interfaces"],
+                correct: 0
+            },
+            {
+                question: "What is the benefit of immutability in Java?",
+                answers: ["Thread safety", "Better memory management", "Easier debugging", "Faster execution"],
+                correct: 0
+            },
+            {
+                question: "Which of the following can be marked as 'final' in Java?",
+                answers: ["Class, method, variable", "Class only", "Method only", "Variable only"],
+                correct: 0
+            },
+            {
+                question: "What is a nested class in Java?",
+                answers: ["A class within another class", "A class within a method", "A class that extends another class", "A class with final fields"],
+                correct: 0
+            },
+            {
+                question: "What is the correct way to achieve loose coupling in Java?",
+                answers: ["Using interfaces", "Using final classes", "Using inheritance", "Using private methods"],
+                correct: 0
+            },
+            {
+                question: "What is the diamond problem in Java and how is it solved?",
+                answers: ["It occurs with multiple inheritance, solved by interfaces", "It occurs in method overloading, solved by overriding", "It occurs in abstract classes, solved by using constructors", "It occurs with abstract methods, solved by final classes"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        const nextButton = document.getElementById('next-btn');
+        const resultButton = document.getElementById('result-btn');
+        const resultDiv = document.getElementById('result');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <div class="question">
+                        <p>Question ${currentQuestion + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer" data-index="${i}">${answer}</button>
+                        `).join('')}
+                    </div>
+                `;
+
+                const answerButtons = quizContainer.querySelectorAll('.answer');
+                answerButtons.forEach(button => {
+                    button.addEventListener('click', handleAnswer);
+                });
+
+                nextButton.style.display = 'none';
+            } else {
+                showResult();
+            }
+        }
+
+        function handleAnswer(e) {
+            const selectedIndex = parseInt(e.target.getAttribute('data-index'));
+            const q = questions[currentQuestion];
+
+            const answerButtons = quizContainer.querySelectorAll('.answer');
+            answerButtons.forEach(button => {
+                button.disabled = true;
+                const buttonIndex = parseInt(button.getAttribute('data-index'));
+                if (buttonIndex === q.correct) {
+                    button.classList.add('correct');
+                } else if (buttonIndex === selectedIndex) {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+
+            nextButton.style.display = 'block';
+        }
+
+        function showNextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                nextButton.style.display = 'none';
+                resultButton.style.display = 'block';
+            }
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = '';
+            resultButton.style.display = 'none';
+            resultDiv.textContent = `Your score: ${score} out of ${questions.length}`;
+        }
+
+        shuffleArray(questions);
+        showQuestion();
+
+        nextButton.addEventListener('click', showNextQuestion);
+        resultButton.addEventListener('click', showResult);
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Python Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+            color: #343a40;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            color: #007bff;
+        }
+        #quiz-container {
+            background-color: #fff;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            font-size: 20px;
+            font-weight: bold;
+            color: #495057;
+        }
+        .answer {
+            display: block;
+            margin: 10px 0;
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            border: 2px solid #ced4da;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            color: #343a40;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .answer:hover {
+            background-color: #e2e6ea;
+        }
+        .answer.correct {
+            background-color: #28a745;
+            color: #ffffff;
+            border-color: #218838;
+        }
+        .answer.incorrect {
+            background-color: #dc3545;
+            color: #ffffff;
+            border-color: #c82333;
+        }
+        #next-btn, #result-btn, #retry-btn, #review-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #next-btn:hover, #result-btn:hover, #retry-btn:hover, #review-btn:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+            margin-top: 20px;
+            color: #007bff;
+        }
+        #scoreboard {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 20px;
+        }
+        #scoreboard div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Python Quiz</h1>
+    <div id="quiz-container"></div>
+    <button id="next-btn" style="display: none;">Next Question</button>
+    <button id="result-btn" style="display: none;">Show Result</button>
+    <button id="retry-btn" style="display: none;">Retry Quiz</button>
+    <button id="review-btn" style="display: none;">Review Answers</button>
+    <div id="result"></div>
+    <div id="scoreboard" style="display: none;">
+        <div id="total-score"></div>
+        <div id="percentage"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which Python decorator is used to make a method static?",
+                answers: ["@staticmethod", "@classmethod", "@decorator", "@staticmethodmethod"],
+                correct: 0
+            },
+            {
+                question: "Which module in Python allows you to serialize objects into JSON?",
+                answers: ["json", "pickle", "os", "marshal"],
+                correct: 0
+            },
+            {
+                question: "Which of the following is used to create a generator?",
+                answers: ["def with yield", "lambda", "class with return", "list comprehension"],
+                correct: 0
+            },
+            {
+                question: "Which method is called when an object is initialized in Python?",
+                answers: ["__new__", "__init__", "__del__", "__call__"],
+                correct: 1
+            },
+            {
+                question: "What is the purpose of the GIL in Python?",
+                answers: ["To manage memory", "To ensure thread safety", "To handle exceptions", "To manage modules"],
+                correct: 1
+            },
+            {
+                question: "What is a Python closure?",
+                answers: ["A function that captures its lexical scope", "A class method", "An exception handler", "A method of serializing data"],
+                correct: 0
+            },
+            {
+                question: "Which Python library is used for parallel computing?",
+                answers: ["multiprocessing", "subprocess", "os", "concurrent"],
+                correct: 0
+            },
+            {
+                question: "How do you define a coroutine in Python?",
+                answers: ["def coroutine(){}", "async def coroutine(){}", "def coroutine(): await", "coroutine function()"],
+                correct: 1
+            },
+            {
+                question: "Which of the following handles asynchronous tasks in Python?",
+                answers: ["asyncio", "multiprocessing", "threading", "sys"],
+                correct: 0
+            },
+            {
+                question: "Which module provides an abstract base class for creating context managers?",
+                answers: ["contextlib", "abc", "base", "io"],
+                correct: 0
+            },
+            {
+                question: "Which data structure in Python is immutable?",
+                answers: ["list", "tuple", "set", "dict"],
+                correct: 1
+            },
+            {
+                question: "What is a weak reference in Python?",
+                answers: ["A reference that does not increase reference count", "A temporary variable", "A mutable object", "A method of garbage collection"],
+                correct: 0
+            },
+            {
+                question: "How do you handle memory leaks in Python?",
+                answers: ["Use garbage collection", "Manually manage memory", "Use C extensions", "Use static variables"],
+                correct: 0
+            },
+            {
+                question: "Which built-in function allows dynamic execution of Python code?",
+                answers: ["exec()", "eval()", "compile()", "call()"],
+                correct: 0
+            },
+            {
+                question: "How are new exceptions defined in Python?",
+                answers: ["Using a class inheriting from Exception", "Using try-except", "Using raise keyword", "Using the Error module"],
+                correct: 0
+            },
+            {
+                question: "What does the 'yield from' statement do?",
+                answers: ["Delegates to a sub-generator", "Stops a generator", "Resumes a generator", "Returns the final value from a generator"],
+                correct: 0
+            },
+            {
+                question: "Which keyword is used to end an infinite loop in Python?",
+                answers: ["break", "exit", "return", "stop"],
+                correct: 0
+            },
+            {
+                question: "How is function memoization achieved in Python?",
+                answers: ["Using functools.lru_cache", "Using decorators", "Using closures", "Using lambda"],
+                correct: 0
+            },
+            {
+                question: "How do you combine multiple iterators in Python?",
+                answers: ["Using itertools.chain()", "Using map()", "Using zip()", "Using list()"],
+                correct: 0
+            },
+            {
+                question: "Which of the following can be used for metaprogramming in Python?",
+                answers: ["metaclasses", "generators", "coroutines", "decorators"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        const nextButton = document.getElementById('next-btn');
+        const resultButton = document.getElementById('result-btn');
+        const retryButton = document.getElementById('retry-btn');
+        const reviewButton = document.getElementById('review-btn');
+        const resultDiv = document.getElementById('result');
+        const scoreboard = document.getElementById('scoreboard');
+        const totalScoreDiv = document.getElementById('total-score');
+        const percentageDiv = document.getElementById('percentage');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <div class="question">
+                        <p>Question ${currentQuestion + 1}: ${q.question}</p>
+                        ${q.answers.map((answer, i) => `
+                            <button class="answer" data-index="${i}">${answer}</button>
+                        `).join('')}
+                    </div>
+                `;
+
+                const answerButtons = quizContainer.querySelectorAll('.answer');
+                answerButtons.forEach(button => {
+                    button.addEventListener('click', () => selectAnswer(button, q));
+                });
+            }
+        }
+
+        function selectAnswer(button, q) {
+            const selectedIndex = parseInt(button.getAttribute('data-index'));
+            const answerButtons = quizContainer.querySelectorAll('.answer');
+            answerButtons.forEach(btn => {
+                btn.disabled = true;
+                const buttonIndex = parseInt(btn.getAttribute('data-index'));
+                if (buttonIndex === q.correct) {
+                    btn.classList.add('correct');
+                } else if (buttonIndex === selectedIndex) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+
+            nextButton.style.display = 'block';
+        }
+
+        function showNextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                nextButton.style.display = 'none';
+                resultButton.style.display = 'block';
+            }
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = '';
+            resultButton.style.display = 'none';
+            const percentage = (score / questions.length) * 100;
+            resultDiv.textContent = `Your score: ${score} out of ${questions.length}`;
+
+            scoreboard.style.display = 'block';
+            totalScoreDiv.textContent = `Total Score: ${score}`;
+            percentageDiv.textContent = `Percentage: ${percentage.toFixed(0)}%`;
+            retryButton.style.display = 'block';
+            reviewButton.style.display = 'block';
+        }
+
+        function retryQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            scoreboard.style.display = 'none';
+            resultDiv.textContent = '';
+            retryButton.style.display = 'none';
+            reviewButton.style.display = 'none';
+            shuffleArray(questions);
+            showQuestion();
+            nextButton.style.display = 'none';
+            resultButton.style.display = 'none';
+        }
+
+        function reviewQuiz() {
+            quizContainer.innerHTML = questions.map((q, index) => `
+                <div class="question">
+                    <p>Question ${index + 1}: ${q.question}</p>
+                    ${q.answers.map((answer, i) => `
+                        <div class="${i === q.correct ? 'correct' : ''}">${answer}</div>
+                    `).join('')}
+                </div>
+            `).join('');
+            nextButton.style.display = 'none';
+            resultButton.style.display = 'none';
+            retryButton.style.display = 'block';
+            reviewButton.style.display = 'none';
+        }
+
+        shuffleArray(questions);
+        showQuestion();
+
+        nextButton.addEventListener('click', showNextQuestion);
+        resultButton.addEventListener('click', showResult);
+        retryButton.addEventListener('click', retryQuiz);
+        reviewButton.addEventListener('click', reviewQuiz);
+    </script>
+</body>
+</html>

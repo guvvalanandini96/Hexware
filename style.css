@@ -1,0 +1,101 @@
+/* Login Page */
+.login-container {
+    text-align: center;
+    padding: 20px;
+    background-image: url('background.jpg');
+    background-size: cover;
+    color: white;
+}
+
+input, button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+}
+
+/* Register Page */
+.register-container {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+}
+
+/* Welcome Page */
+.welcome-screen {
+    text-align: center;
+    padding: 20px;
+    background-image: url('welcome-bg.jpg');
+    background-size: cover;
+    color: white;
+}
+
+/* Home Page */
+.home-page {
+    text-align: center;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+}
+
+/* Quiz Screen */
+.quiz-screen {
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Leaderboard */
+.leaderboard {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Submit Screen */
+.submit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #004f2d;
+}
+
+button {
+    background-color: #ffcd00;
+    padding: 15px 30px;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Logout Screen */
+.logout-screen {
+    text-align: center;
+    padding: 20px;
+    background-image: url('logout-bg.jpg');
+    background-size: cover;
+    color: white;
+}
+
+button {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
